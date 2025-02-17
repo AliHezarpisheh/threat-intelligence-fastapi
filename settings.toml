@@ -1,0 +1,72 @@
+# These settings and configurations are consistent across different environments.
+# Inconsistent and secret settings and configurations should be placed in the .env files,
+# using the .env.example files.
+
+# OpenAPI information.
+[openapi]
+title = "Threat Intelligence API"
+version = "1.0.0"
+description = "Backend for threat intelligence application using FastAPI."
+
+[openapi.contact]
+name = "Threat Intelligence API Support Team"
+email = "alihezarpisheh@outlook.com"
+
+[openapi.license]
+name = "MIT License"
+url = "https://opensource.org/licenses/MIT"
+
+[[openapi.tags]]
+name = "Auth"
+description = "Operations related to authentication and authorization."
+
+[[openapi.tags]]
+name = "Threat Reports"
+description = "Operations related to threat intelligence reporting."
+
+# Logging configuration.
+[logging]
+version = 1
+disable_existing_loggers = false
+
+[logging.formatters.coreFormatter]
+format = "%(asctime)s - %(levelname)s - %(name)s - %(relativepath)s:%(lineno)d - %(message)s"
+datefmt = "%Y-%m-%d %H:%M:%S"
+
+[logging.handlers.consoleHandler]
+level = "DEBUG"
+class = "logging.StreamHandler"
+formatter = "coreFormatter"
+
+[logging.handlers.fileHandler]
+level = "INFO"
+class = "logging.handlers.RotatingFileHandler"
+filename = "logs/rental-house.log"
+maxBytes = 1048576   # 1 MB
+backupCount = 10
+formatter = "coreFormatter"
+
+[logging.loggers.development]
+level = "DEBUG"
+handlers = ["consoleHandler", "fileHandler"]
+propagate = true
+
+[logging.loggers.production]
+level = "INFO"
+handlers = ["fileHandler"]
+propagate = true
+
+[logging.loggers.uvicorn]
+level = "DEBUG"
+handlers = ["consoleHandler", "fileHandler"]
+propagate = true
+
+[logging.loggers.uvicorn.error]
+level = "DEBUG"
+handlers = ["consoleHandler", "fileHandler"]
+propagate = true
+
+[logging.loggers.uvicorn.access]
+level = "DEBUG"
+handlers = ["consoleHandler", "fileHandler"]
+propagate = true
