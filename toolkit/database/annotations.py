@@ -2,7 +2,7 @@
 
 from typing import Annotated
 
-str64 = Annotated[str, 64]
+str63 = Annotated[str, 63]
 str255 = Annotated[str, 255]
 
 text = Annotated[str, "Text"]
