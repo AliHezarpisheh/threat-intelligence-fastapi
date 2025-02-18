@@ -1,0 +1,63 @@
+Project threat_intelligence_fastapi {
+  database: 'PostgreSQL'
+  Note: 'Backend for a threat intelligence application using FastAPI.'
+}
+
+
+/////////////////////////
+//      Auth App      //
+///////////////////////
+
+
+TableGroup auth {
+  auth.user
+}
+
+Table auth.user {
+    id               int           [pk, increment, note: 'Primary key']
+    username         varchar(255)  [unique, not null, note: 'Unique username']
+    email            varchar(255)  [unique, not null, note: 'Unique email address']
+    hashed_password  varchar(255)  [not null, note: 'Hashed password']
+    is_active        boolean       [default: true, note: 'Indicates if the user is active']
+    created_at       timestamp     [default: `current_timestamp`, note: 'Record creation timestamp']
+    updated_at       timestamp     [default: `current_timestamp`, note: 'Record update timestamp']
+
+    Note: 'Table to store user credentials and status'
+}
+
+
+/////////////////////////
+// Threat-Report App  //
+///////////////////////
+
+
+TableGroup threat {
+  threat.threat_report
+}
+
+Table threat.threat_report {
+  id                int                    [pk, increment, note: 'Primary key']
+  indicator_type    threat.IndicatorType   [not null, note: 'Threat indicator type']
+  indicator_address varchar(255)           [not null, note: 'Threat indicator address']
+  full_name         varchar(255)           [not null, note: 'Full name of the user submitting the report']
+  email             varchar(255)           [not null, note: 'Email of the user submitting the report']
+  threat_actor      varchar(255)           [null, note: 'The treat actor']
+  industry          varchar(255)           [null, note: 'The industry']
+  tactic            varchar(63)            [null, note: 'The treat tactic']
+  technique         varchar(63)            [null, note: 'The treat technique']
+  credibility       int                    [not null, note: 'The treat credibility']
+  attack_logs       text                   [null, note: 'The treat attack logs']
+  created_at       timestamp     [default: `current_timestamp`, note: 'Record creation timestamp']
+  updated_at       timestamp     [default: `current_timestamp`, note: 'Record update timestamp']
+
+  Note: 'Table to store threat reports'
+}
+
+Enum threat.IndicatorType {
+  IP
+  Email
+  Domain
+  File
+  URL
+  User Agent
+}
