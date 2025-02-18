@@ -10,7 +10,7 @@ from .base import BaseSchema
 
 
 class TimestampMixin(BaseSchema):
-    """Mixin for timestamp fields (created_at and updated_at)."""
+    """Mixin for timestamp fields (created_at and modified_at)."""
 
     created_at: Annotated[
         datetime,
@@ -19,7 +19,7 @@ class TimestampMixin(BaseSchema):
             description="The modification time of the object.",
         ),
     ]
-    updated_at: Annotated[
+    modified_at: Annotated[
         datetime | None,
         Field(
             description="The modification time of the object.",

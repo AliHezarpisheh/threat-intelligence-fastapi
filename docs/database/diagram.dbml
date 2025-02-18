@@ -20,7 +20,7 @@ Table auth.user {
     hashed_password  varchar(255)  [not null, note: 'Hashed password']
     is_active        boolean       [default: true, note: 'Indicates if the user is active']
     created_at       timestamp     [default: `current_timestamp`, note: 'Record creation timestamp']
-    updated_at       timestamp     [default: `current_timestamp`, note: 'Record update timestamp']
+    modified_at       timestamp     [default: `current_timestamp`, note: 'Record update timestamp']
 
     Note: 'Table to store user credentials and status'
 }
@@ -47,17 +47,17 @@ Table threat.threat_report {
   technique         varchar(63)            [null, note: 'The treat technique']
   credibility       int                    [not null, note: 'The treat credibility']
   attack_logs       text                   [null, note: 'The treat attack logs']
-  created_at       timestamp     [default: `current_timestamp`, note: 'Record creation timestamp']
-  updated_at       timestamp     [default: `current_timestamp`, note: 'Record update timestamp']
+  created_at        timestamp              [default: `current_timestamp`, note: 'Record creation timestamp']
+  modified_at        timestamp              [default: `current_timestamp`, note: 'Record update timestamp']
 
   Note: 'Table to store threat reports'
 }
 
 Enum threat.IndicatorType {
-  IP
-  Email
-  Domain
-  File
-  URL
-  User Agent
+  ip
+  email
+  domain
+  file
+  url
+  user_agent
 }
