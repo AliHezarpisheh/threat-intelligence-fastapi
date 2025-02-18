@@ -17,6 +17,8 @@ tomlkit = "^0.13.2"
 orjson = "^3.10.15"
 bcrypt = "^4.2.1"
 pyjwt = {extras = ["crypto"], version = "^2.10.1"}
+coloredlogs = "^15.0.1"
+pydantic-settings = "^2.7.1"
 
 
 [tool.poetry.group.test.dependencies]
