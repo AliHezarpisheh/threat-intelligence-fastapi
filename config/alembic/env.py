@@ -6,6 +6,8 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+from app.auth.models import *
+from app.threat.models import *
 from config.base import settings
 from toolkit.database.orm import Base
 
