@@ -41,7 +41,7 @@ formatter = "coreFormatter"
 [logging.handlers.fileHandler]
 level = "INFO"
 class = "logging.handlers.RotatingFileHandler"
-filename = "logs/rental-house.log"
+filename = "logs/threat_intelligence.log"
 maxBytes = 1048576   # 1 MB
 backupCount = 10
 formatter = "coreFormatter"
