@@ -27,6 +27,7 @@ from .exception_handlers import (
     unauthorized_exception_handler,
 )
 from .healthcheck import router as health_check_router
+from .threat.routers import router as threat_router
 
 # Setup FastAPI instance
 app = FastAPI(
@@ -69,3 +70,4 @@ app.add_exception_handler(
 
 # Include routers
 app.include_router(health_check_router)
+app.include_router(threat_router)
