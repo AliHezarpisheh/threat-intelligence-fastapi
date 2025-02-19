@@ -1,5 +1,8 @@
 """Module containing model definitions for threat reports."""
 
+import json
+from typing import Any
+
 from sqlalchemy import Index
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -60,6 +63,19 @@ class ThreatReport(CommonMixin, Base):
         nullable=True,
         comment="The threat attack logs",
     )
+
+    def to_bytes(self) -> bytes:
+        """Convert the ThreatReport instance to a JSON bytes object."""
+
+        def serializer(obj: Any) -> str:
+            if isinstance(obj, ThreatType):
+                return obj.value
+            return str(obj)
+
+        threat_dict = self.__dict__
+        threat_dict.pop("_sa_instance_state", None)
+        json_str = json.dumps(threat_dict, default=serializer)
+        return json_str.encode("utf-8")
 
     def __str__(self) -> str:
         """Return a string representation of the `ThreatReport` object."""
