@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     # PostgreSQL settings
     database_url: Annotated[str, Field(..., description="Database connection URL.")]
 
+    # RabbitMQ settings
+    amqp_url: Annotated[str, Field(..., description="AMQP-RabbitMQ connection URL.")]
+
     # API settings
     jwt_algorithm: Annotated[
         str, Field(..., description="The algorithm used for signing the jwt.")
