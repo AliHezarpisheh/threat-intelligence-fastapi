@@ -20,6 +20,7 @@ pyjwt = {extras = ["crypto"], version = "^2.10.1"}
 coloredlogs = "^15.0.1"
 pydantic-settings = "^2.7.1"
 alembic = "^1.14.1"
+aio-pika = "^9.5.4"
 
 
 [tool.poetry.group.test.dependencies]
