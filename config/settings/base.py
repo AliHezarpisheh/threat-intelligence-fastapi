@@ -45,6 +45,21 @@ class Settings(BaseSettings):
     # RabbitMQ settings
     amqp_url: Annotated[str, Field(..., description="AMQP-RabbitMQ connection URL.")]
 
+    # Redis settings
+    redis_host: Annotated[
+        str, Field(..., description="Redis server's hostname/IP.")
+    ] = "localhost"
+    redis_port: Annotated[
+        int, Field(..., description="The port the Redis instance is running.")
+    ] = 6037
+    redis_db: Annotated[
+        int, Field(..., description="Redis database (Accepted values: 0-15)")
+    ] = 0
+    redis_password: Annotated[str, Field(..., description="Redis instance password.")]
+    redis_pool_max_connection: Annotated[
+        int, Field(..., description="Redis pool max connection limit.")
+    ] = 100
+
     # API settings
     jwt_algorithm: Annotated[
         str, Field(..., description="The algorithm used for signing the jwt.")

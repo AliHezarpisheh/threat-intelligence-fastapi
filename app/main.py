@@ -5,9 +5,10 @@ It initializes the FastAPI application, configures middleware, setting lifespan 
 manager, and defines routes for handling various HTTP requests.
 """
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import ORJSONResponse
+from fastapi_limiter.depends import RateLimiter
 
 from config.base import settings
 from config.settings.openapi import responses
@@ -28,6 +29,7 @@ from .exception_handlers import (
     unauthorized_exception_handler,
 )
 from .healthcheck import router as health_check_router
+from .lifespan import lifespan
 from .threat.routers import router as threat_router
 
 # Setup FastAPI instance
@@ -41,6 +43,8 @@ app = FastAPI(
     responses=responses,
     default_response_class=ORJSONResponse,
     redoc_url=None,
+    lifespan=lifespan,
+    dependencies=[Depends(RateLimiter(times=10, minutes=1))],
 )
 
 # Register custom exception handlers

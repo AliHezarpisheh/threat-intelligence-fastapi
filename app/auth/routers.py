@@ -3,6 +3,7 @@
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, status
+from fastapi_limiter.depends import RateLimiter
 
 from app.auth.dependencies import (
     get_auth_service,
@@ -59,6 +60,7 @@ async def register(
     status_code=status.HTTP_200_OK,
     response_model=TokenOutput,
     response_model_exclude_none=True,
+    dependencies=[Depends(RateLimiter(times=5, minutes=1))],
 )
 async def login(
     user_input: UserAuthenticateInput,
