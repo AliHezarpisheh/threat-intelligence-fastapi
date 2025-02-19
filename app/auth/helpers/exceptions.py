@@ -17,3 +17,7 @@ class DuplicateUserError(DuplicateResourceError):
 
 class InvalidUserCredentials(UnauthorizedError):
     """Exception raised when the user is not authenticated."""
+
+
+class InternalTokenError(UnauthorizedError):
+    """Exception raised when a internal token-related error occur."""

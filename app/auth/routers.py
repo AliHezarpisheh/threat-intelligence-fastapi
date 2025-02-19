@@ -8,6 +8,7 @@ from app.auth.dependencies import (
     get_auth_service,
 )
 from app.auth.schemas import (
+    TokenOutput,
     UserAuthenticateInput,
     UserOutput,
     UserRegisterInput,
@@ -56,7 +57,7 @@ async def register(
 @router.post(
     "/login",
     status_code=status.HTTP_200_OK,
-    response_model=UserOutput,
+    response_model=TokenOutput,
     response_model_exclude_none=True,
 )
 async def login(
@@ -69,7 +70,7 @@ async def login(
     This endpoint validates the user's credentials (e.g., email and password)
     and returns a JWT token upon successful authentication.
 
-    - **password**: The password provided by the client..
+    - **password**: The password provided by the client.
     - **email**: The email address of the user, which must be valid.
 
     \f
@@ -83,8 +84,7 @@ async def login(
     Returns
     -------
     dict
-        A dictionary containing the authenticated user's data, along with
-        status, message, and optional documentation links.
+        A dictionary containing the token and token type.
 
     Notes
     -----

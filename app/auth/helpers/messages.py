@@ -9,3 +9,6 @@ class AuthMessages(StrEnum):
     SUCCESS_REGISTER_MESSAGE = "Registration has been successful"
     SUCCESS_LOGIN_MESSAGE = "Login has been successful"
     INVALID_CREDENTIALS = "Invalid email or password."
+    INTERNAL_TOKEN_ERROR = (
+        "Internal error generating token. Check the logs for more info."
+    )

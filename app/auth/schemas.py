@@ -1,9 +1,12 @@
-"""Module defines schemas for auth-related entities."""
+"""Module defines schemas for auth-related."""
 
 from __future__ import annotations
 
-from typing import Annotated
+import uuid
+from datetime import datetime
+from typing import Annotated, Literal
 
+import pydantic
 from pydantic import EmailStr, Field
 
 from toolkit.api.schemas.base import APIResponse, BaseSchema
@@ -37,3 +40,23 @@ class UserOutput(APIResponse):
     """Output schema for successful user operations output, containing the user data."""
 
     data: UserOutputData
+
+
+@pydantic.dataclasses.dataclass
+class JwtClaims:
+    """Pydantic dataclass representing JWT claims."""
+
+    sub: int
+    aud: list[str] | str
+    iat: datetime
+    nbf: datetime
+    exp: datetime
+    jti: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    issue: str = "rental_house_fastapi"
+
+
+class TokenOutput(BaseSchema):
+    """Output schema for granting user an access token with the token type."""
+
+    access_token: str
+    type: Literal["Bearer"] = "Bearer"
