@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session
 
-from app.auth.services import AuthService
+from app.auth.services import AuthService, TokenService
 from toolkit.api.database import get_async_db_session
 
 
@@ -16,3 +16,8 @@ async def get_auth_service(
 ) -> AuthService:
     """Get `AuthService` dependency, injecting db session."""
     return AuthService(db_session=db_session)
+
+
+async def get_token_service() -> TokenService:
+    """Get `TokenService` dependency."""
+    return TokenService()

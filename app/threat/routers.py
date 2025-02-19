@@ -4,12 +4,17 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, Path, status
 
+from app.auth.security import verify_token_dependency
 from app.threat.dependencies import get_threat_report_service
 from app.threat.schemas import ThreatReportInputSchema, ThreatReportOutputSchema
 from app.threat.services import ThreatReportService
 from toolkit.api.enums import OpenAPITags
 
-router = APIRouter(prefix="/threats", tags=[OpenAPITags.THREAT_REPORTS])
+router = APIRouter(
+    prefix="/threats",
+    tags=[OpenAPITags.THREAT_REPORTS],
+    dependencies=[Depends(verify_token_dependency)],
+)
 
 
 @router.post(

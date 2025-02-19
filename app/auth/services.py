@@ -24,6 +24,7 @@ from app.auth.models import User
 from app.auth.schemas import JwtClaims, UserAuthenticateInput, UserRegisterInput
 from config.base import logger, settings
 from toolkit.api.enums import HTTPStatusDoc, Status
+from toolkit.api.exceptions.custom_exceptions import UnauthorizedError
 
 
 class TokenService:
@@ -64,6 +65,44 @@ class TokenService:
 
         return {"access_token": token, "type": self.TOKEN_TYPE}
 
+    def verify_token(self, token: str) -> None:
+        """
+        Verify the validity of a JWT token.
+
+        Parameters
+        ----------
+        token : str
+            The JWT token to verify.
+
+        Raises
+        ------
+        UnauthorizedError
+            If the token is invalid, expired, or has an incorrect format.
+        InternalTokenError
+            If an internal error occurs during token verification.
+        """
+        assert settings.jwt_public_key is not None, "JWT public key is not set."
+
+        try:
+            jwt.decode(
+                jwt=token,
+                key=settings.jwt_public_key,
+                algorithms=[settings.jwt_algorithm],
+                audience=["all"],
+                options={"verify_signature": True, "verify_exp": True},
+            )
+        except jwt.ExpiredSignatureError:
+            logger.warning("Token has expired")
+            raise UnauthorizedError(AuthMessages.TOKEN_EXPIRED)
+        except jwt.InvalidTokenError as err:
+            logger.error(f"Invalid token: {err}")
+            raise UnauthorizedError(AuthMessages.INVALID_TOKEN)
+        except Exception as err:
+            logger.error(
+                f"Unexpected error during token verification: {err}", exc_info=True
+            )
+            raise InternalTokenError(AuthMessages.INTERNAL_TOKEN_ERROR)
+
     def _generate_payload(self, user: User) -> JwtClaims:
         """
         Generate the payload for a JWT token.
@@ -83,7 +122,7 @@ class TokenService:
             dtm=current_datetime, minutes=settings.jwt_lifetime_minutes
         )
         return JwtClaims(
-            sub=user.id,
+            sub=str(user.id),
             aud=["all"],
             iat=current_datetime,
             nbf=current_datetime,

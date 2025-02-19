@@ -46,7 +46,7 @@ class UserOutput(APIResponse):
 class JwtClaims:
     """Pydantic dataclass representing JWT claims."""
 
-    sub: int
+    sub: str
     aud: list[str] | str
     iat: datetime
     nbf: datetime
