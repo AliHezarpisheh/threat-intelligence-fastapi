@@ -27,24 +27,6 @@ class TimestampMixin(BaseSchema):
     ] = None
 
 
-class AuditMixin(BaseSchema):
-    """Mixin for audit fields (created_by and updated_by)."""
-
-    created_by: Annotated[
-        str,
-        Field(
-            ...,
-            description="ID of the user who created the object.",
-        ),
-    ]
-    updated_by: Annotated[
-        str | None,
-        Field(
-            description="ID of the user who modified the object.",
-        ),
-    ] = None
-
-
 class IdMixin(BaseSchema):
     """Mixin for ID field (id)."""
 
