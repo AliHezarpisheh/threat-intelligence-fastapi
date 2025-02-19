@@ -1,0 +1,1 @@
+CREATE DATABASE threat_intelligence_db;

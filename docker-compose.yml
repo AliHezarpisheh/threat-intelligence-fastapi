@@ -1,0 +1,81 @@
+services:
+  threat-intelligence-app:
+    container_name: threat-intelligence-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env.production
+    depends_on:
+      - threat-intelligence-db
+      - threat-intelligence-broker
+      - threat-intelligence-redis
+    networks:
+      - threat-intelligence-network
+    command: >
+      bash -c "alembic upgrade head && fastapi run"
+
+  threat-intelligence-db:
+    image: postgres:16-alpine
+    container_name: threat-intelligence-db
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - threat-intelligence-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  threat-intelligence-broker:
+    image: rabbitmq:4.0-management
+    container_name: threat-intelligence-broker
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - threat-intelligence-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  threat-intelligence-redis:
+    image: redis:alpine
+    container_name: threat-intelligence-redis
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6380:6379"
+    networks:
+      - threat-intelligence-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  threat-intelligence-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:

@@ -1,0 +1,116 @@
+[tool.poetry]
+name = "threat-intelligence-fastapi"
+version = "0.1.0"
+description = "Backend for a threat intelligence application using FastAPI."
+authors = ["ali <alihezarpisheh@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = {extras = ["standard"], version = "^0.115.8"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.38"}
+asyncpg = "^0.30.0"
+uvloop = "^0.21.0"
+tomlkit = "^0.13.2"
+orjson = "^3.10.15"
+bcrypt = "^4.2.1"
+pyjwt = {extras = ["crypto"], version = "^2.10.1"}
+coloredlogs = "^15.0.1"
+pydantic-settings = "^2.7.1"
+alembic = "^1.14.1"
+aio-pika = "^9.5.4"
+fastapi-limiter = "^0.1.6"
+redis = {extras = ["hiredis"], version = "^5.2.1"}
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.4"
+pytest-randomly = "^3.16.0"
+pytest-cov = "^6.0.0"
+pytest-asyncio = "^0.25.3"
+tox = "^4.24.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.6"
+isort = "^6.0.0"
+mypy = "^1.15.0"
+pre-commit = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+line-length = 88
+lint.select = [
+    "E",  # pycodestyle
+    "W",  # pycodestyle
+    "F",  # pyflakes
+    "UP",  # pyupgrade
+    "C90",  # mccabe
+    "D",  # pydocstyle
+    "I",  # isort
+    "RUF",  # Ruff specific rules
+]
+lint.ignore = ["D104"]
+lint.exclude = ["*/alembic/*"]
+
+lint.fixable = [
+    "F401",  # Remove unused imports.
+    "RUF100",  # Remove unused noqa comments.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F401"]
+"*/routers.py" = ["D301", "D411"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+
+plugins = ["sqlalchemy.ext.mypy.plugin", "pydantic.mypy"]
+
+exclude = "tests/"
+
+
+[tool.pytest.ini_options]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "-ra",
+    "-v",
+]
+markers = [
+    "smoke: Tests focusing on essential and critical functionality",
+    "exception: Tests checking how the application handles exceptions and error scenarios",
+    "asyncio: Asynchronous tests using the pytest-asyncio plugin",
+]
+required_plugins = [
+    "pytest-randomly",
+    "pytest-cov",
+]
+
+testpaths = "tests"
+xfail_strict = true
+
+
+[tool.coverage.run]
+parallel = true
+source = [
+    "app",
+    "toolkit",
+]
