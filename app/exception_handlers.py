@@ -40,7 +40,7 @@ async def custom_http_exception_handler(
             "status": exc.status.value,
             "message": exc.message,
             "details": exc.details,
-            "documentation_link": exc.documentation_link.value,
+            "documentationLink": exc.documentation_link.value,
         },
     )
 
@@ -75,7 +75,7 @@ async def internal_exception_handler(
         content={
             "status": Status.ERROR,
             "message": Messages.INTERNAL_SERVER_ERROR,
-            "documentation_link": HTTPStatusDoc.HTTP_STATUS_500,
+            "documentationLink": HTTPStatusDoc.HTTP_STATUS_500,
         },
     )
 

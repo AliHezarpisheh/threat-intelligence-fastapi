@@ -18,6 +18,7 @@ from toolkit.api.exceptions import (
     UnauthorizedError,
 )
 
+from .auth.routers import router as auth_router
 from .exception_handlers import (
     custom_http_exception_handler,
     does_not_exist_exception_handler,
@@ -71,3 +72,4 @@ app.add_exception_handler(
 # Include routers
 app.include_router(health_check_router)
 app.include_router(threat_router)
+app.include_router(auth_router)
