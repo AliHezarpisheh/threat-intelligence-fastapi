@@ -21,6 +21,8 @@ coloredlogs = "^15.0.1"
 pydantic-settings = "^2.7.1"
 alembic = "^1.14.1"
 aio-pika = "^9.5.4"
+fastapi-limiter = "^0.1.6"
+redis = {extras = ["hiredis"], version = "^5.2.1"}
 
 
 [tool.poetry.group.test.dependencies]
